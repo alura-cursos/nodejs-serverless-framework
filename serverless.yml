@@ -1,0 +1,34 @@
+org: waltertnfc
+app: aws-node-http-api-project
+service: aws-node-http-api-project
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+functions:
+  sendResponse:
+    handler: api/handler.sendResponde
+    events:
+      - httpApi:
+        path: /api/results
+        method: post
+        request:
+          schemas:
+            applicatio/json: ${file(./schemas/sendResponse.json)}
+  api:
+    handler: api/handler.js
+    events:
+      - httpApi:
+          path: /
+          method: get
+
